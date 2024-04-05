@@ -43,6 +43,7 @@ class User_pack(models.Model):
     pack_status=models.CharField(max_length=50)
     datef=models.DateField()
     enddat=models.DateField()
+    days_remaining=models.IntegerField()
 
     
     

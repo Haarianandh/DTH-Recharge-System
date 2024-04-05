@@ -54,6 +54,15 @@
                   <div class="mb-3">
                     <!-- <input type="password" class="form-control" id="password"> -->
                     <p>{{ error }} </p>
+                    {% if messages %}
+                    <div class="messages-container">
+                      {% for message in messages %}
+                        <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                          {{ message }}
+                        </div>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
                   </div>
                   <div class="text-center">
                     <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
@@ -103,5 +112,4 @@
 </body>
 
 </html>
-{% load sweetify %}
-{% sweetify %}
+

@@ -51,14 +51,14 @@
             <span class="nav-link-text ms-1">PACKS</span>
           </a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link text-white " href="../pages/tables.html">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">table_view</i>
             </div>
             <span class="nav-link-text ms-1">Tables</span>
           </a>
-        </li>
+        </li> -->
        
        
        
@@ -141,7 +141,11 @@
                       <h6 class="text-center mb-0">PACK NAME</h6>
                       <h5 class="mb-0">{{ x }} </h5>
                       <hr class="horizontal dark my-3">
-                      <h5 class="mb-0">{{ y }} </h5>
+                      {% if y == 'INACTIVE' %}
+                      <h5 class="mb-0"><button class="btn" style="background-color:rgb(233, 8, 31);color:aliceblue;" >  {{ y }}</button> </h5>
+                      {% else %}
+                      <h5 class="mb-0"><button class="btn btn-success">  {{ y }} </button></h5>
+                      {% endif %}
                     </div>
                   </div>
                 </div>
@@ -156,7 +160,7 @@
                       <h6 class="text-center mb-0">Pack date details</h6>
                       <span> number of days remaining </span>
                       <hr class="horizontal dark my-3">
-                      <h5 class="mb-0"> days remainig.. {{ r_date }}</h5>
+                      <h5 class="mb-0">{{ dr }} days remainig.. </h5>
                     </div>
                   </div>
                 </div>

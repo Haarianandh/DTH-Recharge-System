@@ -21,5 +21,5 @@ urlpatterns=[
     path('pack_booking/<int:id>',views.pack_booking,name="pack_booking"),
     path('payment_done/<str:id>',views.payment_done,name="payment_done"),
     path('user_view',views.user_view,name="user_view"),
-    path('activate_user/<int:id>',views.activate_user,name="activate_user"),
+    path('activate_user/<str:id>',views.activate_user,name="activate_user"),
     ] 

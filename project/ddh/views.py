@@ -8,11 +8,14 @@ import qrcode
 from PIL import Image
 from io import BytesIO
 import base64
-import datetime
+from datetime import datetime
 from datetime import timedelta
 # Create your views here.
 def home (request):
+
     return render (request,'virtual-reality.html')
+    
+
 def login(request):
     if request.method=='POST':
         uname=request.POST['username']
@@ -21,20 +24,43 @@ def login(request):
             data=Admin.objects.get(username=uname)
             if data.password==password:
                 request.session ['username'] = uname
-                sweetify.success(request,title="success",text="logged in successfully..",button="close" )
-                return render(request,'index.html',{'session':request.session['username']})
+                sweetify.success(request,title="success",text="logged in successfully ..",button="close" )
+                return redirect("index")
             else:
-                sweetify.error(request,title='Failed',text="incorrect password",button='close')
+                messages.error(request, "In correct password !!!")
+                # sweetify.error(request,title='Failed',text="incorrect password",button='close')
                 return render(request,'sign-in.html')
         except:
-            sweetify.error(request,title='Failed',text="username not found",button='close')
+            messages.error(request, "User Name not found !!!")
+            # sweetify.error(request,title='Failed',text="username not found",button='close')
             return redirect('login')
 
-    else:
-        return render(request,'sign-in.html')
+    
+    return render(request,'sign-in.html')
                 
 def index(request):
-    return render(request,'index.html',{'session':request.session['username']})
+    if 'username' in request.session:
+        combo=Pack.objects.all()
+        c=len(combo)
+        user=Userdata.objects.all()
+        u=len(user)
+        au=User_pack.objects.all().filter(pack_status='INACTIVE')
+        actu=len(au)
+        acuser=User_pack.objects.all().filter(pack_status='ACTIVE')
+        auser=len(acuser)
+        channel=Combo.objects.all()
+        channel_avl=len(channel)
+        context={
+            'session':request.session['username'],
+            'c':c,
+            'u':u,
+            'actu':actu,
+            'auser':auser,
+            'channel_avl':channel_avl,
+
+
+        }
+        return render(request,'index.html',context)
      
 def register(request):
     if request.method=='POST':
@@ -44,7 +70,7 @@ def register(request):
             data=Userdata.objects.get(email=email)
             if data.password==password:
                 request.session ['email'] = email
-                sweetify.success(request,title="success",text="logged in successfully..",button="close" )
+                sweetify.success(request,title="success",text="logged in successfully welcome..",button="close" )
                 return redirect('user_index')
                 # return render(request,'home.html',{'session':request.session['email']})
             else:
@@ -53,8 +79,8 @@ def register(request):
         except:
             sweetify.error(request,title='Failed',text="username not found",button='close')
             return redirect('register')
-    else:
-        return render (request,'sign-up.html')
+
+    return render (request,'sign-up.html')
     
 def user_index(request):
     if 'email' in request.session:
@@ -67,11 +93,15 @@ def user_index(request):
             startdate=data.datef
             enddate=data.enddat
             id=data.user_id
-            from_date = datetime.strptime(data.datef, "%Y-%m-%d")
-            to_date = datetime.strptime(data.enddat, "%Y-%m-%d")
-            print(data.datef)
-            r_date=to_date-from_date
-            print("date",r_date)
+            dr=data.days_remaining
+            if data.days_remaining <= 0:
+                data.delete()
+                x=None
+                y=None
+                startdate=None
+                enddate=None
+                id=None
+                dr=None
 
         except:
             x=None
@@ -79,6 +109,7 @@ def user_index(request):
             startdate=None
             enddate=None
             id=None
+            dr=None
             
         context={
             'session':request.session['email'],
@@ -89,7 +120,7 @@ def user_index(request):
             'id':id,
             'user':email.uname,
             'mob':email.mobileno,
-            # 'r_date':r_date,
+            'dr':dr,
 
         }
         return render(request,'home.html',context)
@@ -98,7 +129,7 @@ def user_index(request):
     
 def user_logout(request):
     del request.session['email']
-    return redirect('user_index')
+    return redirect('home')
 
 def logout(request):
     del request.session['username']
@@ -287,12 +318,16 @@ def payment_done(request,id):
 
         except:
                     print("except block is running")
-                    x=datetime.datetime.now()
+                    x=datetime.now()
                     xe=str(x)
                     date=xe[0:10]
                     final_date=x+timedelta(days=28)
                     final_date1=str(final_date)
                     final_date2=final_date1[0:10]
+                    from_date = datetime.strptime(date, "%Y-%m-%d")
+                    to_date = datetime.strptime(final_date2, "%Y-%m-%d")
+                    pen_date=to_date-from_date
+                    diff=pen_date.days
                     pack_status="INACTIVE"
                     userid=78945612
                     print("entering into saving the block")
@@ -302,19 +337,20 @@ def payment_done(request,id):
                     pack_status=pack_status,
                     datef=date,
                     user_id=userid,
-                    enddat=final_date2
+                    enddat=final_date2,
+                    days_remaining=diff,
                     )
                     print("data stored in variable")
                     save_combo.save()
-                    print("data seved success fully")
+                    print("data saved success fully")
                    
     
         print("combo saved success fully !!!")
-        # subject = 'Registration success full'
-        # message = f'Hi {data.uname}, thanks for choosing the pack \n The pack name is :{fk.packname},\n the pack price is : {fk.price} ,\n your pack request has been submitted ,once approved by the admin your are able to view channels and the websites also....'
-        # email_from = settings.EMAIL_HOST_USER
-        # recipient_list = [data.email, ]
-        # send_mail( subject, message, email_from, recipient_list )
+        subject = 'Registration success full'
+        message = f'Hi {data.uname}, thanks for choosing the pack \n The pack name is :{fk.packname},\n the pack price is : {fk.price} ,\n your pack request has been submitted ,once approved by the admin your are able to view channels and the websites also....'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [data.email, ]
+        send_mail( subject, message, email_from, recipient_list )
         return redirect('user_index')
 
 def user_view(request):
@@ -332,10 +368,13 @@ def activate_user(request,id):
         data_a=User_pack.objects.get(email_id=data.id)
         if data_a.pack_status == 'INACTIVE':    
             data_a.pack_status='ACTIVE'
+            subject = 'Pack Activated'
+            message = f'Hi {data.uname}, Your pack is success fully activated no u can able to view channels..thanks for choosing us !!'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [data.email, ]
+            send_mail( subject, message, email_from, recipient_list )
         else:
             data_a.pack_status='INACTIVE'
         data_a.save()
         print(data_a.pack_status)
         return redirect("user_view")
-
-        

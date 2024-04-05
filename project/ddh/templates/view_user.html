@@ -22,13 +22,13 @@
               <div class="ms-auto text-end">
                 <h5>The Pack is in <span style="color:brown;"> INACTIVE</span> State</h5>
                 <!-- <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="#"><i class="material-icons text-sm me-2">delete</i>INACTIVE</a> -->
-                <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'activate_user' id=i.id %}"><i class="material-icons text-sm me-2">edit</i>ACTIVATE</a>
+                <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'activate_user' id=i.email %}"><i class="material-icons text-sm me-2">edit</i>ACTIVATE</a>
             </div>
               {% else %}
               <div class="ms-auto text-end">
                 <h5>The Pack is in <span style="color:rgb(10, 110, 32);">ACTIVE</span> State</h5>
                 <!-- <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="#"><i class="material-icons text-sm me-2">edit</i>ACTIVE</a> -->
-                <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'activate_user' id=i.id %}"><i class="material-icons text-sm me-2">edit</i>INACTIVATE</a>
+                <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'activate_user' id=i.email %}"><i class="material-icons text-sm me-2">edit</i>INACTIVATE</a>
             </div>
              {% endif %}
             </li>
