@@ -1,0 +1,158 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<body class="">
+
+  <main class="main-content  mt-0">
+    <section>
+      <div class="page-header min-vh-100">
+      
+        <div class="container">
+          <div class="row">
+            <!-- <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column">
+              <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center" style="background-image: url(static/img/illustrations/illustration-signup.jpg); background-size: cover;">
+              </div>
+            </div> -->
+            <div class="col-xl-12 col-lg-12 col-md-12 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-12">
+              <div class="card card-plain">
+                <div class="card-header">
+                  {% if messages %}
+                  <div class="messages-container">
+                    {% for message in messages %}
+                      <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                        {{ message }}
+                      </div>
+                    {% endfor %}
+                  </div>    
+                {% endif %}
+                  <h4 class="font-weight-bolder">Adding Channels to the Combo  <---<button class="btn btn-primary">{{ combo_name }}</button></h4>
+                  
+                </div>
+                <div class="card-body">
+                  <form  method="POST" action="">
+                    {% csrf_token %}
+                    <div class="input-group input-group-outline mb-3">
+                        <input type="hidden" placeholder="Combo_name" class="form-control" name="combo_name" value="{{ combo_name }}" >
+                      </div>
+                    <div class="input-group input-group-outline mb-3">
+                      <input type="text" placeholder="Channel_name" class="form-control" name="channel_name" required>
+                    </div>
+                    <div class="input-group input-group-outline mb-3">
+                        <input type="text" placeholder="Channel_Language" class="form-control" name="channel_lang" required>
+                      </div>
+                      <div class="input-group input-group-outline mb-3">
+                        <input type="text" placeholder="Channel_Description" class="form-control" name="channel_des" required>
+                      </div>
+                      <div class="input-group input-group-outline mb-3">
+                        <input type="number" placeholder="Channel_Price" class="form-control" name="channel_price" required>
+                      </div>
+                      <div class="input-group input-group-outline mb-3">
+                        <select class="form-select" name="channel_type" required>
+                          <option value="">Channel_type</option>
+                          <option value="paid">Paid</option>
+                          <option value="unpaid">Un-paid</option>
+                          
+                        </select>
+                      </div>
+               
+                    <div class="input-group input-group-outline mb-3">
+                        <!-- <input type="number" placeholder="price" class="form-control" name="price" required> -->
+                    </div>
+                    
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Add channel</button>
+                    </div>
+                  </form>
+                </div>
+              
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col">
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col" class="text-center">S No.</th>
+              <th scope="col">CHANNEL NAME</th>
+              <th scope="col" class="text-center">CHANNEL LANGUAGE</th>
+              <th scope="col" class="text-center">CHANNEL TYPE</th>
+              <th scope="col" class="text-center">CHANNEL PRICE</th>
+              <th scope="col" class="text-center">CHANNEL DESCRIPTION</th>
+              <th scope="col" class="text-center">DELETE</th>
+            </tr>
+          </thead>
+          <tbody>
+           {% for i in tvs %}
+            <tr>
+              <td class="text-center">
+                <p class="text-l font-weight-bold mb-2">{{ forloop.counter }} </p>
+              </td>
+
+              <td>
+                <div class="d-flex px-4 py-1">
+                  <div class="d-flex flex-column justify-content-center">
+                    <h6 class="mb-0 text-l">{{ i.channelname }} </h6>
+                  </div>
+                </div>
+              </td>
+
+              <td class="text-center">
+                <p class="text-l font-weight-bold mb-2">{{ i.channellang }} </p>
+              </td>
+
+              <td class="text-center">
+                <p class="text-l font-weight-bold mb-2">{{ i.channeltype}} </p>
+              </td>
+
+              <td class="text-center">
+                <p class="text-l font-weight-bold mb-0">{{ i.channelamount}} </p>
+              </td>
+              <td class="text-center">
+                <p class="text-l font-weight-bold mb-0">{{ i.channeldes }} </p>
+              </td>
+
+              <td class="text-center">
+               <button class="btn btn-primary"> <a href="{% url 'channel_del' id=i.id  %}" style="text-decoration:none;color: aliceblue;"  >DELETE</a></button>
+              </td>
+            </tr>
+          
+            {% endfor %}
+            <!-- Add more rows as needed -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--   Core JS Files   -->
+  <!-- <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/plugins/perfect-scrollbar.min.js' %}"></script>
+  <script src="{% static 'js/plugins/smooth-scrollbar.min.js' %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.5/sweetalert2.all.min.js"></script>
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script> -->
+  <!-- Github buttons -->
+  <!-- <script async defer src="https://buttons.github.io/buttons.js"></script> -->
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <!-- <script src="{% static 'js/material-dashboard.min.js?v=3.0.0' %}"></script> -->
+</body>
+
+{% load sweetify %}
+{% sweetify %}
+{% endblock %}

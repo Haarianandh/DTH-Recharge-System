@@ -1,0 +1,73 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+
+    <!-- End Navbar -->
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Channel LIST </h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+   
+    </div>
+  </main>
+  <body>
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col">
+          <table class="table">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col" class="text-center">S.No</th>
+                <th scope="col" class="text-center">CHANNEL NAME</th>
+                <th scope="col" class="text-center">CHANNEL LANGUAGE</th>
+                <th scope="col" class="text-center">CHANNEL TYPE</th>
+                <th scope="col" class="text-center">COST/month</th>
+              
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in data %}
+              <tr>
+                <td class="text-center">
+                  <p class="text-xs font-weight-bold mb-0">{{ forloop.counter }} </p>
+                </td>
+                <td>
+                  <div class="d-flex px-4 py-1">
+                    <div class="d-flex flex-column justify-content-center">
+                      <h6 class="mb-0 text-sm">{{ i.channelname }} </h6>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <p class="text-xs font-weight-bold mb-0">{{ i.channellang }} </p>
+                </td>
+                <td class="text-center">
+                    <p class="text-xs font-weight-bold mb-0">{{ i.channeldes }} </p>
+                  </td>
+                  <td class="text-center">
+                    <p class="text-xs font-weight-bold mb-0">{{ i.channelamount }} </p>
+                  </td>
+          
+              </tr>
+              {% endfor %}
+              <!-- Add more rows as needed -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Bootstrap JS (Optional, for some components) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

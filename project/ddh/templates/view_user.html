@@ -1,0 +1,41 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mt-4">
+      <div class="card">
+        <div class="card-header pb-0 px-3">
+          <h6 class="mb-0">No of User Registered information..</h6>
+        </div>
+        <div class="card-body pt-4 p-3">
+          <ul class="list-group">
+            {% for i in data %}
+            <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+              <div class="d-flex flex-column">
+                <h6 class="mb-3 text-sm"> User Name: {{ i.email.uname }} </h6>
+                <span class="mb-2 text-xs">Mobile number: <span class="text-dark font-weight-bold ms-sm-2">{{ i.email.mobileno }} </span></span>
+                <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">{{ i.email.email }}</span></span>
+                <span class="mb-2 text-xs">Pack name : <span class="text-dark ms-sm-2 font-weight-bold">{{ i.packname }} </span></span>
+                <span class="mb-2 text-xs">Pack start date : <span class="text-dark ms-sm-2 font-weight-bold">{{ i.datef }} </span></span>
+                <span class="mb-2 text-xs">Pack end date: <span class="text-dark ms-sm-2 font-weight-bold">{{ i.enddat }} </span></span>
+              </div>
+              {% if i.pack_status == 'INACTIVE' %}
+              <div class="ms-auto text-end">
+                <h5>The Pack is in <span style="color:brown;"> INACTIVE</span> State</h5>
+                <!-- <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="#"><i class="material-icons text-sm me-2">delete</i>INACTIVE</a> -->
+                <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'activate_user' id=i.id %}"><i class="material-icons text-sm me-2">edit</i>ACTIVATE</a>
+            </div>
+              {% else %}
+              <div class="ms-auto text-end">
+                <h5>The Pack is in <span style="color:rgb(10, 110, 32);">ACTIVE</span> State</h5>
+                <!-- <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="#"><i class="material-icons text-sm me-2">edit</i>ACTIVE</a> -->
+                <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'activate_user' id=i.id %}"><i class="material-icons text-sm me-2">edit</i>INACTIVATE</a>
+            </div>
+             {% endif %}
+            </li>
+            {% endfor %}
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+{% endblock %}

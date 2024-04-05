@@ -1,0 +1,39 @@
+{% extends 'home.html' %}
+{% block content %}
+{% if messages %}
+<div class="messages-container">
+  {% for message in messages %}
+    <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+      {{ message }}
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
+<div class="row">
+    <div class="col-md-7 mt-4">
+      <div class="card">
+        <div class="card-header pb-0 px-3">
+          <h6 class="mb-0">PACKS AVAILABLE FOR YOU..</h6>
+        </div>
+        <div class="card-body pt-4 p-3">
+          <ul class="list-group">
+            {% for i in data %}
+            <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+              <div class="d-flex flex-column">
+                <h3 class="mb-3 text-sm"> PACK NO : {{ forloop.counter }} </h3>
+                <h6 class="mb-3 text-sm"><button style="background-color:rgb(47, 111, 146);color:aliceblue" class="btn" >{{ i.packname }} </button></h6>
+                <span class="mb-2 text-xs">Pack Price: <span class="text-dark font-weight-bold ms-sm-2">{{ i.price }}</span></span>
+                <!-- <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">oliver@burrito.com</span></span>
+                <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span> -->
+              </div>
+              <div class="ms-auto text-end">
+                <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="{% url 'pack_booking' id=i.id %}"><i class="material-icons text-sm me-2">delete</i>BOOK PACK</a>
+                <a class="btn btn-link text-dark px-3 mb-0" href="{% url 'user_view_pack' id=i.id %}"><i class="material-icons text-sm me-2">edit</i>VIEW</a>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+{% endblock %}
