@@ -327,8 +327,8 @@ def user_view(request):
     
 def activate_user(request,id):
     if 'username' in request.session:
-        id=id-1
-        data=Userdata.objects.get(id=id)
+        # id=id-1
+        data=Userdata.objects.get(email=id)
         data_a=User_pack.objects.get(email_id=data.id)
         if data_a.pack_status == 'INACTIVE':    
             data_a.pack_status='ACTIVE'
